@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Price Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://cryptologos.cc/logos/bitcoin-btc-logo.png">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h1>Crypto Tracker Pro</h1>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-label">Total Market Cap</span>
+                    <span class="stat-value" id="total-market-cap">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">24h Volume</span>
+                    <span class="stat-value" id="total-volume">Loading...</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">BTC Dominance</span>
+                    <span class="stat-value" id="btc-dominance">Loading...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel - All Cryptos -->
+            <section class="crypto-list-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-coins"></i> Live Crypto Prices</h2>
+                    <div class="controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="search-crypto" placeholder="Search cryptocurrencies...">
+                        </div>
+                        <select id="currency-select">
+                            <option value="usd">USD ($)</option>
+                            <option value="eur">EUR (€)</option>
+                            <option value="gbp">GBP (£)</option>
+                            <option value="jpy">JPY (¥)</option>
+                            <option value="inr">INR (₹)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="crypto-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>24h Change</th>
+                                <th>Market Cap</th>
+                                <th>Watchlist</th>
+                            </tr>
+                        </thead>
+                        <tbody id="crypto-table-body">
+                            <!-- Crypto data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <button id="prev-page" class="btn-pagination">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <span class="page-info">Page <span id="current-page">1</span> of <span id="total-pages">1</span></span>
+                    <button id="next-page" class="btn-pagination">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Right Panel - Watchlist -->
+            <aside class="watchlist-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-star"></i> My Watchlist</h2>
+                    <button id="clear-watchlist" class="btn-clear">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
+                
+                <div class="watchlist-info">
+                    <p>Add cryptocurrencies to your watchlist by clicking the <i class="fas fa-plus-circle"></i> icon.</p>
+                    <p>Your watchlist is saved locally in your browser.</p>
+                </div>
+                
+                <div class="table-container">
+                    <table class="watchlist-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>24h Change</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="watchlist-table-body">
+                            <!-- Watchlist items will be populated here -->
+                        </tbody>
+                    </table>
+                    <div id="empty-watchlist" class="empty-state">
+                        <i class="fas fa-star"></i>
+                        <h3>Your watchlist is empty</h3>
+                        <p>Add some cryptocurrencies to track their prices</p>
+                    </div>
+                </div>
+                
+                <div class="watchlist-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-list-ol"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>Total Coins</h4>
+                            <p id="watchlist-count">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>24h Gainers</h4>
+                            <p id="watchlist-gainers">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h4>24h Losers</h4>
+                            <p id="watchlist-losers">0</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Crypto Price Tracker &copy; 2023 | Data provided by <a href="https://www.coingecko.com" target="_blank">CoinGecko API</a></p>
+            <p>Auto-refreshes every 60 seconds</p>
+            <div class="last-updated">
+                <i class="fas fa-sync-alt"></i>
+                <span id="last-updated">Last updated: --:--:--</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading cryptocurrency data...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
